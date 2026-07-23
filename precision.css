@@ -1,0 +1,11 @@
+/* Final optical alignment and delivery optimizations. */
+.logo-lockup{display:block;width:168px;height:auto;overflow:visible}
+.logo-lockup img{position:static;display:block;width:100%;height:auto;max-width:100%;transform:none}
+.footer .logo-lockup{width:180px;height:auto}.footer .logo-lockup img{position:static;width:100%;height:auto}
+.counter-value{position:absolute;top:45%;left:50%;display:grid;grid-template-columns:max-content max-content;width:max-content;justify-content:center;align-items:center;transform:translate(-50%,-50%)}
+.availability-counter>p{right:0;bottom:-32px;left:0;width:auto}
+.footer-links{display:flex;flex-direction:column;gap:9px;margin-top:27px}.footer-links a{display:inline-flex;align-items:center;gap:9px;color:rgba(246,239,226,.78);font-size:10px;font-weight:600;letter-spacing:.06em;text-decoration:none;transition:color .2s ease}.footer-links a:hover{color:#e6c384}.footer-links span{font-size:14px;font-weight:400}
+.footer-brand-signatures{display:flex;align-items:center;gap:19px}.brand-divider{width:1px;height:38px;background:rgba(246,239,226,.27)}.mef-brand{display:block;width:56px;transition:opacity .2s ease}.mef-brand:hover{opacity:.7}.mef-brand img{display:block;width:100%;height:auto;filter:brightness(0) invert(1);opacity:.86}
+.hero-image{background-image:url('assets/liora-corner.webp')}.contact-image{background-image:url('assets/liora-masterplan.webp')}
+.gallery,.privileges{content-visibility:auto;contain-intrinsic-size:900px}
+@media(max-width:760px){.logo-lockup{width:132px;height:auto}.footer .logo-lockup{width:150px;height:auto}.availability-counter>p{bottom:-28px}.footer-links{margin-top:23px}.footer-brand-signatures{gap:15px}.brand-divider{height:33px}.mef-brand{width:50px}}

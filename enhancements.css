@@ -1,0 +1,47 @@
+/* Liora brand refinement: original logo, ambient light, and editorial motion. */
+.brand{gap:0}
+.logo-lockup{display:block;position:relative;width:168px;height:62px;overflow:hidden}
+.logo-lockup img{display:block;position:absolute;top:-108px;left:-24px;width:217px;height:auto;max-width:none}
+
+.desktop-nav a{position:relative;padding:8px 0}
+.desktop-nav a::after{position:absolute;right:0;bottom:2px;left:0;height:1px;content:"";background:#efd39d;transform:scaleX(0);transform-origin:right;transition:transform .35s ease}
+.desktop-nav a:hover::after{transform:scaleX(1);transform-origin:left}
+
+.hero-image{background-image:url('assets/liora-corner.png');background-position:center;animation:liora-slow-zoom 16s ease-out both}
+.hero-atmosphere,.contact-atmosphere{position:absolute;inset:0;pointer-events:none;overflow:hidden}
+.hero-frame{position:absolute;inset:23px;border:1px solid rgba(255,255,255,.24);animation:liora-frame-breathe 6s ease-in-out infinite}
+.hero-frame::before,.hero-frame::after{position:absolute;width:68px;height:68px;content:"";border-color:#ead1a3;border-style:solid}
+.hero-frame::before{top:-1px;left:-1px;border-width:1px 0 0 1px}
+.hero-frame::after{right:-1px;bottom:-1px;border-width:0 1px 1px 0}
+.glint{position:absolute;width:3px;height:3px;background:#fff5d7;border-radius:50%;box-shadow:0 0 8px 3px rgba(255,222,151,.7);animation:liora-glint 4.6s ease-in-out infinite}
+.glint-one{top:27%;left:24%;animation-delay:-.8s}.glint-two{top:38%;right:16%;animation-delay:-2.5s}.glint-three{right:30%;bottom:22%;animation-delay:-3.5s}
+
+.heading-line{display:block;overflow:hidden;animation:liora-title-lift 1.15s cubic-bezier(.16,1,.3,1) both}
+.heading-line + .heading-line{animation-delay:.13s}
+.hero .eyebrow{animation:liora-fade-up .75s .08s both}
+.hero-copy{animation:liora-fade-up .8s .45s both}
+.hero-content .button{animation:liora-fade-up .8s .58s both}
+.reveal.visible h2{animation:liora-heading-reveal .85s cubic-bezier(.16,1,.3,1) both}
+
+.contact-atmosphere span{position:absolute;inset:18px;border:1px solid rgba(255,255,255,.18);animation:liora-frame-breathe 7s 1s ease-in-out infinite}
+.contact-atmosphere i{position:absolute;width:2px;height:2px;background:#fff2cb;border-radius:50%;box-shadow:0 0 9px 4px rgba(255,209,123,.55);animation:liora-glint 5s ease-in-out infinite}
+.contact-atmosphere i:first-of-type{top:25%;left:60%;animation-delay:-1.2s}.contact-atmosphere i:last-of-type{right:12%;bottom:34%;animation-delay:-3s}
+.contact-info{align-items:center}
+.contact-info a,.contact-info span{color:#fff;text-decoration:none;font-size:11px;letter-spacing:.05em}
+.footer-brand{filter:invert(1)}
+.footer .logo-lockup{width:128px;height:48px}
+.footer .logo-lockup img{top:-82px;left:-18px;width:165px}
+
+@keyframes liora-slow-zoom{from{transform:scale(1.035)}to{transform:scale(1.09)}}
+@keyframes liora-title-lift{from{opacity:0;transform:translateY(105%)}to{opacity:1;transform:translateY(0)}}
+@keyframes liora-fade-up{from{opacity:0;transform:translateY(18px)}to{opacity:1;transform:none}}
+@keyframes liora-heading-reveal{from{opacity:0;filter:blur(5px);transform:translateY(28px)}to{opacity:1;filter:blur(0);transform:none}}
+@keyframes liora-frame-breathe{0%,100%{opacity:.4}50%{opacity:.86}}
+@keyframes liora-glint{0%,100%{opacity:.2;transform:scale(.4)}45%{opacity:1;transform:scale(1.3)}60%{opacity:.35;transform:scale(.55)}}
+
+@media(max-width:760px){
+  .logo-lockup{width:132px;height:49px}.logo-lockup img{top:-85px;left:-19px;width:171px}
+  .hero-image{background-position:61% center}.hero-frame{inset:13px}.hero-frame::before,.hero-frame::after{width:40px;height:40px}
+  .contact{min-height:690px}.contact-info{display:grid;grid-template-columns:1fr 1fr;gap:10px}.contact-info span{grid-column:1/-1;font-size:9px}.contact-info a{font-size:9px}
+}
+@media(prefers-reduced-motion:reduce){*,*::before,*::after{scroll-behavior:auto!important;animation-duration:.01ms!important;animation-iteration-count:1!important}}
