@@ -27,7 +27,7 @@ const translations = {
     contactKicker: 'SİZE AYRILAN YER', contactTitle: 'Işığın size<br /><em>ulaşmasına izin verin.</em>', contactCopy: 'Detaylı bilgi için iletişime geçin.', contactCta: 'WhatsApp’tan Bilgi Al <span>↗</span>',
     location: 'Muğla Ortaca, Cumhuriyet Mah.', footerTagline: 'Ege ışığında, zamansız bir yaşam mirası.', instagram: 'Instagram @mefyapitr <span>↗</span>',
     locationKicker: 'PROJE KONUMU', locationTitle: 'Muğla Ortaca<br />Cumhuriyet Mah.', mapLink: '<span class="map-pin">●</span> Haritada aç <b>↗</b>',
-    copyright: '© 2026 Liora Ortaca. Tüm hakları saklıdır.', whatsappFloating: "WhatsApp'tan bilgi alın"
+    copyright: '© 2026 Liora Ortaca. Tüm hakları saklıdır.', whatsappEyebrow: 'SON 4 DAİRE', whatsappFloating: 'Detaylı bilgi için bize yazın', whatsappDismiss: 'Bildirimi küçült'
   },
   en: {
     documentTitle: 'Liora Ortaca | A Timeless Legacy',
@@ -55,11 +55,13 @@ const translations = {
     contactKicker: 'A PLACE RESERVED FOR YOU', contactTitle: 'Let the light<br /><em>find its way to you.</em>', contactCopy: 'Contact us for detailed information.', contactCta: 'Get Information on WhatsApp <span>↗</span>',
     location: 'Muğla Ortaca, Cumhuriyet District', footerTagline: 'A timeless legacy of living in the Aegean light.', instagram: 'Instagram @mefyapitr <span>↗</span>',
     locationKicker: 'PROJECT LOCATION', locationTitle: 'Muğla Ortaca<br />Cumhuriyet District', mapLink: '<span class="map-pin">●</span> Open in maps <b>↗</b>',
-    copyright: '© 2026 Liora Ortaca. All rights reserved.', whatsappFloating: 'Get information on WhatsApp'
+    copyright: '© 2026 Liora Ortaca. All rights reserved.', whatsappEyebrow: 'ONLY 4 HOMES LEFT', whatsappFloating: 'Message us for details', whatsappDismiss: 'Minimize notification'
   }
 };
 
 const whatsappLink = document.getElementById('whatsappLink');
+const whatsappWidget = document.getElementById('whatsappWidget');
+const whatsappDismiss = document.getElementById('whatsappDismiss');
 const menuButton = document.querySelector('.menu-button');
 const mobileNav = document.querySelector('.mobile-nav');
 const languageButtons = document.querySelectorAll('.language-button');
@@ -73,7 +75,11 @@ const setLanguage = (language, persist = true) => {
   document.querySelectorAll('[data-i18n-html]').forEach((element) => { if (copy[element.dataset.i18nHtml]) element.innerHTML = copy[element.dataset.i18nHtml]; });
   menuButton?.setAttribute('aria-label', copy.menuLabel);
   const whatsappUrl = `https://wa.me/${whatsappNumber}?text=${encodeURIComponent(copy.whatsappMessage)}`;
-  if (whatsappLink) whatsappLink.href = whatsappUrl;
+  if (whatsappLink) {
+    whatsappLink.href = whatsappUrl;
+    whatsappLink.setAttribute('aria-label', copy.whatsappFloating);
+  }
+  whatsappDismiss?.setAttribute('aria-label', copy.whatsappDismiss);
   document.querySelectorAll('.availability .button, .contact .button').forEach((link) => { link.href = whatsappUrl; });
   languageButtons.forEach((button) => button.setAttribute('aria-pressed', String(button.dataset.language === language)));
   if (persist) { try { localStorage.setItem('liora-language', language); } catch {} }
@@ -83,6 +89,11 @@ let storedLanguage = 'tr';
 try { storedLanguage = localStorage.getItem('liora-language') || 'tr'; } catch {}
 setLanguage(storedLanguage, false);
 languageButtons.forEach((button) => button.addEventListener('click', () => setLanguage(button.dataset.language)));
+
+window.setTimeout(() => whatsappWidget?.classList.add('is-visible'), 1400);
+whatsappDismiss?.addEventListener('click', () => {
+  whatsappWidget?.classList.add('is-dismissed');
+});
 
 menuButton?.addEventListener('click', () => {
   const isOpen = mobileNav.classList.toggle('open');
