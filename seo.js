@@ -19,7 +19,7 @@
 
   const content = {
     tr: {
-      homeTitle: 'Liora Ortaca | Muğla Ortaca Satılık Daire Projesi',
+      homeTitle: 'Liora Ortaca | Zamansız Bir Miras',
       homeDescription: "Muğla Ortaca Cumhuriyet Mahallesi'nde MEF Yapı imzası taşıyan 8 dairelik Liora Ortaca'yı keşfedin. Kalan 4 daire için güncel bilgi alın.",
       socialDescription: "Doğal taş mimarisiyle yalnızca 8 seçkin aile için tasarlanan Liora Ortaca'da son 4 daire. Detaylı bilgi için iletişime geçin.",
       imageAlt: 'Gün batımında Liora Ortaca butik konut projesi',

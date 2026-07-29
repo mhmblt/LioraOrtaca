@@ -2,7 +2,7 @@ const whatsappNumber = '905469108052';
 
 const translations = {
   tr: {
-    documentTitle: 'Liora Ortaca | Muğla Ortaca Satılık Daire Projesi',
+    documentTitle: 'Liora Ortaca | Zamansız Bir Miras',
     metaDescription: "Muğla Ortaca Cumhuriyet Mahallesi'nde MEF Yapı imzası taşıyan 8 dairelik Liora Ortaca'yı keşfedin. Kalan 4 daire için güncel bilgi alın.",
     whatsappMessage: 'Merhaba, Liora Ortaca projesi hakkında bilgi almak istiyorum.',
     menuLabel: 'Menüyü aç', brandAria: 'Liora Ortaca ana sayfa', navAria: 'Ana menü', mobileNavAria: 'Mobil menü', languageAria: 'Dil seçimi', mefAria: 'MEF Yapı & İnşaat web sitesi',
