@@ -149,6 +149,12 @@
           addressRegion: 'Muğla',
           addressCountry: 'TR'
         },
+        geo: {
+          '@type': 'GeoCoordinates',
+          latitude: 36.848878,
+          longitude: 28.757576
+        },
+        hasMap: 'https://www.google.com/maps/search/?api=1&query=36.848878%2C28.757576',
         numberOfAccommodationUnits: {
           '@type': 'QuantitativeValue',
           value: Number(inventory.total) || 8
