@@ -8,7 +8,7 @@
   .whatsapp-widget .whatsapp svg{width:25px;height:25px}
   .whatsapp-widget .whatsapp-copy{display:flex;min-width:0;flex-direction:column;gap:5px}
   .whatsapp-widget .whatsapp-eyebrow{display:block;color:#a37b3b;font-size:8px;font-weight:700;line-height:1;letter-spacing:.16em}
-  .whatsapp-widget .whatsapp-message{display:block;overflow:hidden;color:#172219;font-family:var(--serif);font-size:15px;font-weight:600;line-height:1.15;letter-spacing:-.02em;text-overflow:ellipsis;white-space:nowrap}
+  .whatsapp-widget .whatsapp-message{display:block;overflow:hidden;padding:1px 0 4px;color:#172219;font-family:var(--serif);font-size:15px;font-weight:600;line-height:1.28;letter-spacing:-.02em;text-overflow:ellipsis;white-space:nowrap}
   .whatsapp-widget .whatsapp-arrow{display:block;color:#9e783f;font-family:var(--sans);font-size:17px}
   .whatsapp-widget .whatsapp-badge{position:absolute;top:-6px;right:-5px;display:grid;width:18px;height:18px;place-items:center;color:#fff;border:2px solid #f8f4eb;border-radius:50%;background:#c78e43;font-family:var(--sans);font-size:8px;font-weight:700;box-shadow:0 2px 7px rgba(0,0,0,.2);animation:whatsapp-badge-pulse 2.8s ease-in-out infinite}
   .whatsapp-dismiss{position:absolute;top:8px;right:9px;z-index:2;display:grid;width:25px;height:25px;padding:0;place-items:center;color:rgba(23,34,25,.48);border:0;background:transparent;font-family:var(--sans);font-size:18px;line-height:1;cursor:pointer}

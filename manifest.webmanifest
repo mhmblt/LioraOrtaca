@@ -1,0 +1,19 @@
+{
+  "name": "Liora Ortaca",
+  "short_name": "Liora",
+  "description": "Muğla Ortaca Cumhuriyet Mahallesi'nde MEF Yapı imzalı, 8 dairelik butik konut projesi.",
+  "lang": "tr",
+  "start_url": "/",
+  "scope": "/",
+  "display": "standalone",
+  "background_color": "#f3f0e9",
+  "theme_color": "#1b2118",
+  "icons": [
+    {
+      "src": "/assets/favicon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any"
+    }
+  ]
+}

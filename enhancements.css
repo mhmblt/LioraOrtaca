@@ -7,7 +7,7 @@
 .desktop-nav a::after{position:absolute;right:0;bottom:2px;left:0;height:1px;content:"";background:#efd39d;transform:scaleX(0);transform-origin:right;transition:transform .35s ease}
 .desktop-nav a:hover::after{transform:scaleX(1);transform-origin:left}
 
-.hero-image{background-image:url('assets/liora-corner.png');background-position:center;animation:liora-slow-zoom 16s ease-out both}
+.hero-image{background-position:center;animation:liora-slow-zoom 16s ease-out both}
 .hero-atmosphere,.contact-atmosphere{position:absolute;inset:0;pointer-events:none;overflow:hidden}
 .hero-frame{position:absolute;inset:23px;border:1px solid rgba(255,255,255,.24);animation:liora-frame-breathe 6s ease-in-out infinite}
 .hero-frame::before,.hero-frame::after{position:absolute;width:68px;height:68px;content:"";border-color:#ead1a3;border-style:solid}
