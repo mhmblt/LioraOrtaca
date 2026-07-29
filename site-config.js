@@ -5,7 +5,7 @@
  */
 window.LIORA_CONFIG = Object.freeze({
   siteUrl: 'https://www.lioraortaca.com',
-  ga4MeasurementId: '',
+  ga4MeasurementId: 'G-6PJERQFXEK',
   inventory: Object.freeze({
     total: 8,
     available: 4

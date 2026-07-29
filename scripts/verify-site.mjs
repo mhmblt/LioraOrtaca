@@ -8,7 +8,7 @@ const assert = (condition, message) => {
   if (!condition) throw new Error(message);
 };
 
-const pages = ['index.html', 'en/index.html', 'mugla-ortaca-satilik-daire.html', 'privacy.html', '404.html'];
+const pages = ['index.html', 'en/index.html', 'mugla-ortaca-satilik-daire.html', 'privacy.html', 'cookies.html', '404.html'];
 pages.forEach((file) => {
   const html = read(file);
   assert((html.match(/<h1\b/gi) || []).length === 1, `${file}: exactly one H1 is required`);
@@ -32,6 +32,7 @@ const home = read('index.html');
 const englishHome = read('en/index.html');
 const salesPage = read('mugla-ortaca-satilik-daire.html');
 const privacy = read('privacy.html');
+const cookies = read('cookies.html');
 const notFound = read('404.html');
 const vercel = JSON.parse(read('vercel.json'));
 JSON.parse(read('manifest.webmanifest'));
@@ -57,6 +58,9 @@ JSON.parse(read('manifest.webmanifest'));
   assert(html.includes('type="image/avif"') && html.includes('imagesrcset='), `${label}: responsive AVIF preload is missing`);
   assert(/loading="eager"[^>]*fetchpriority="high"/i.test(html), `${label}: LCP image priority is incomplete`);
   assert(/loading="lazy"[^>]*fetchpriority="low"/i.test(html), `${label}: contact image must be lazy and low priority`);
+  assert(!html.includes('id="consentBanner"') && !html.includes('id="cookieSettings"'), `${label}: obsolete consent interface remains`);
+  assert(/<iframe[^>]*\ssrc="https:\/\/www\.google\.com\/maps/i.test(html), `${label}: always-on Google Maps embed is missing`);
+  assert(!html.includes('data-map-src') && !html.includes('data-map-load'), `${label}: obsolete map consent gate remains`);
 });
 
 assert(englishHome.includes('<html lang="en">'), 'English page language is incorrect');
@@ -69,6 +73,19 @@ assert(salesPage.includes('https://www.lioraortaca.com/mugla-ortaca-satilik-dair
 assert(!salesPage.includes('hreflang="en"'), 'Turkish-only sales landing must not advertise an English alternate');
 assert(privacy.includes('data-language-content="tr"') && privacy.includes('data-language-content="en"'), 'Privacy translations are incomplete');
 assert(privacy.includes('content="noindex,follow'), 'Privacy page must remain noindex');
+assert(privacy.includes('KVKK m.11') && privacy.includes('KVKK m.9'), 'Privacy notice legal grounds or rights are incomplete');
+assert(cookies.includes('data-language-content="tr"') && cookies.includes('data-language-content="en"'), 'Cookie policy translations are incomplete');
+assert(cookies.includes('content="noindex,follow'), 'Cookie policy must remain noindex');
+assert(!cookies.includes('liora-consent-v2') && !cookies.includes('liora-campaign-v1'), 'Obsolete consent or campaign storage remains in the cookie inventory');
+assert(cookies.includes('Çerezsiz ölçüm sinyalleri') && cookies.includes('Cookieless measurement signals'), 'Cookieless analytics disclosure is incomplete');
+assert(cookies.includes('G-6PJERQFXEK'), 'Configured GA4 ID is missing from the cookie disclosure');
+assert(!privacy.includes('id="consentBanner"') && !cookies.includes('id="consentBanner"'), 'Legal pages must not display a consent prompt');
+const analytics = read('analytics.js');
+assert(!analytics.includes('localStorage') && !analytics.includes('sessionStorage'), 'Analytics must not persist consent or campaign identifiers');
+assert(analytics.includes("analytics_storage: 'denied'"), 'Analytics storage must remain denied');
+assert(analytics.includes("ad_storage: 'denied'") && analytics.includes("ad_user_data: 'denied'") && analytics.includes("ad_personalization: 'denied'"), 'Advertising consent signals must remain denied');
+assert(analytics.includes("allow_google_signals: false") && analytics.includes("allow_ad_personalization_signals: false"), 'Google Signals or ad personalization is not disabled');
+assert(read('site-config.js').includes("ga4MeasurementId: 'G-6PJERQFXEK'"), 'Production GA4 measurement ID is not configured');
 assert(notFound.includes('content="noindex,follow"'), '404 page must remain noindex');
 assert(vercel.cleanUrls === true && vercel.trailingSlash === false, 'Vercel canonical URL settings are incomplete');
 assert(!JSON.stringify(vercel).includes("'unsafe-inline'"), 'CSP must not allow unsafe inline scripts');

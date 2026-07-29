@@ -36,8 +36,7 @@ const translations = {
     location: 'Muğla Ortaca, Cumhuriyet Mah.', footerTagline: 'Ege ışığında, zamansız bir yaşam mirası.', salesGuideLink: 'Muğla Ortaca satılık daire <span>→</span>', instagram: 'Instagram @mefyapitr <span>↗</span>',
     locationKicker: 'PROJE KONUMU', locationTitle: 'Muğla Ortaca<br />Cumhuriyet Mah.', mapLink: '<span class="map-pin">●</span> Haritada aç <b>↗</b>', mapTitle: 'Liora Ortaca proje konumu',
     copyright: '© 2026 Liora Ortaca. Tüm hakları saklıdır.', whatsappEyebrow: 'SON 4 DAİRE', whatsappFloating: 'Detaylı bilgi için bize yazın', whatsappDismiss: 'Bildirimi küçült',
-    privacyLink: 'Gizlilik ve Çerezler', cookieSettings: 'Çerez Tercihleri', consentTitle: 'Gizliliğiniz sizin seçiminiz',
-    consentText: 'Site performansını ve reklam dönüşümlerini ölçmek için yalnızca izninizle Analytics kullanırız.', consentReject: 'Reddet', consentAccept: 'Kabul Et'
+    privacyLink: 'KVKK Aydınlatma Metni', cookiePolicyLink: 'Çerez Politikası'
   },
   en: {
     documentTitle: 'Liora Ortaca | Boutique Residences in Muğla, Ortaca',
@@ -74,8 +73,7 @@ const translations = {
     location: 'Muğla Ortaca, Cumhuriyet District', footerTagline: 'A timeless legacy of living in the Aegean light.', salesGuideLink: 'Muğla Ortaca residence guide <span>→</span>', instagram: 'Instagram @mefyapitr <span>↗</span>',
     locationKicker: 'PROJECT LOCATION', locationTitle: 'Muğla Ortaca<br />Cumhuriyet District', mapLink: '<span class="map-pin">●</span> Open in maps <b>↗</b>', mapTitle: 'Liora Ortaca project location',
     copyright: '© 2026 Liora Ortaca. All rights reserved.', whatsappEyebrow: 'ONLY 4 HOMES LEFT', whatsappFloating: 'Message us for details', whatsappDismiss: 'Minimize notification',
-    privacyLink: 'Privacy & Cookies', cookieSettings: 'Cookie Preferences', consentTitle: 'Your privacy, your choice',
-    consentText: 'We use Analytics only with your permission to measure site performance and advertising conversions.', consentReject: 'Reject', consentAccept: 'Accept'
+    privacyLink: 'Privacy Notice', cookiePolicyLink: 'Cookie Policy'
   }
 };
 
@@ -115,9 +113,13 @@ const setLanguage = (language, persist = true) => {
   document.querySelectorAll('.availability .button, .contact .button').forEach((link) => { link.href = whatsappUrl; });
   const isLocalPreview = ['127.0.0.1', 'localhost', '::1'].includes(window.location.hostname);
   const privacyPath = isLocalPreview ? '/privacy.html' : '/privacy';
+  const cookiePath = isLocalPreview ? '/cookies.html' : '/cookies';
   const salesPath = isLocalPreview ? '/mugla-ortaca-satilik-daire.html' : '/mugla-ortaca-satilik-daire';
   document.querySelectorAll('[data-privacy-link]').forEach((link) => {
     link.href = language === 'en' ? `${privacyPath}?lang=en` : privacyPath;
+  });
+  document.querySelectorAll('[data-cookie-link]').forEach((link) => {
+    link.href = language === 'en' ? `${cookiePath}?lang=en` : cookiePath;
   });
   document.querySelectorAll('[data-sales-link]').forEach((link) => {
     link.href = salesPath;

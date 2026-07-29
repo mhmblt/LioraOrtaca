@@ -1,53 +1,102 @@
 (() => {
-  const copy = {
+  const shared = {
     tr: {
-      title: 'Gizlilik ve<br /><em>Çerez Politikası</em>',
-      summary: 'Verilerinize saygı duyuyor; ölçümleme tercihinizi açık, geri alınabilir ve güvenli tutuyoruz.',
-      updated: 'Son güncelleme: 26 Temmuz 2026',
       home: 'Ana Sayfa <span>↗</span>',
       returnHome: 'Projeye dön',
-      cookieSettings: 'Çerez Tercihleri',
-      consentTitle: 'Gizliliğiniz sizin seçiminiz',
-      consentText: 'Site performansını ve reklam dönüşümlerini ölçmek için yalnızca izninizle Analytics kullanırız.',
-      privacy: 'Gizlilik ve Çerezler',
-      reject: 'Reddet',
-      accept: 'Kabul Et'
+      privacy: 'KVKK Aydınlatma Metni',
+      cookiePolicy: 'Çerez Politikası'
     },
     en: {
-      title: 'Privacy &amp;<br /><em>Cookie Policy</em>',
-      summary: 'We respect your data and keep your measurement choice clear, reversible and secure.',
-      updated: 'Last updated: 26 July 2026',
       home: 'Home <span>↗</span>',
       returnHome: 'Back to project',
-      cookieSettings: 'Cookie Preferences',
-      consentTitle: 'Your privacy, your choice',
-      consentText: 'We use Analytics only with your permission to measure site performance and advertising conversions.',
-      privacy: 'Privacy & Cookies',
-      reject: 'Reject',
-      accept: 'Accept'
+      privacy: 'Privacy Notice',
+      cookiePolicy: 'Cookie Policy'
     }
   };
 
+  const documentCopy = {
+    privacy: {
+      tr: {
+        title: 'KVKK<br /><em>Aydınlatma Metni</em>',
+        summary: 'Kişisel verilerin hangi kapsamda ve neden işlendiğini açık, ölçülü ve doğrulanabilir biçimde açıklıyoruz.',
+        updated: 'Son güncelleme: 29 Temmuz 2026',
+        pageTitle: 'KVKK Aydınlatma Metni | Liora Ortaca',
+        description: 'Liora Ortaca internet sitesi ziyaretçileri için KVKK aydınlatma metni; işlenen veriler, amaçlar, hukuki sebepler, aktarım ve başvuru hakları.'
+      },
+      en: {
+        title: 'Privacy<br /><em>Notice</em>',
+        summary: 'A clear, proportionate account of what personal data is processed, why it is used and the controls available to you.',
+        updated: 'Last updated: 29 July 2026',
+        pageTitle: 'Privacy Notice | Liora Ortaca',
+        description: 'Privacy notice for visitors to the Liora Ortaca website, including data, purposes, legal grounds, transfers and rights.'
+      }
+    },
+    cookies: {
+      tr: {
+        title: 'Çerez Politikası<br /><em>ve Teknolojiler</em>',
+        summary: 'Sitede kullanılan tarayıcı depolamasını, çerezsiz ölçümü ve harita hizmetini açık biçimde açıklıyoruz.',
+        updated: 'Son güncelleme: 29 Temmuz 2026',
+        pageTitle: 'Çerez Politikası ve Teknolojiler | Liora Ortaca',
+        description: 'Liora Ortaca çerez politikası; dil tercihi, çerezsiz Google Analytics ölçümü, Google Haritalar ve tarayıcı kontrolleri.'
+      },
+      en: {
+        title: 'Cookie Policy<br /><em>&amp; Technologies</em>',
+        summary: 'A clear account of browser storage, cookieless measurement and map services used on this website.',
+        updated: 'Last updated: 29 July 2026',
+        pageTitle: 'Cookie Policy and Technologies | Liora Ortaca',
+        description: 'Liora Ortaca cookie policy covering language storage, cookieless Google Analytics, Google Maps and browser controls.'
+      }
+    }
+  };
+
+  const documentType = document.body.dataset.legalDocument === 'cookies' ? 'cookies' : 'privacy';
   const buttons = document.querySelectorAll('[data-language]');
+  const isLocalPreview = () => ['127.0.0.1', 'localhost', '::1'].includes(window.location.hostname);
+  const legalPath = (type) => {
+    if (isLocalPreview()) return type === 'cookies' ? '/cookies.html' : '/privacy.html';
+    return type === 'cookies' ? '/cookies' : '/privacy';
+  };
+  const withLanguage = (path, language) => language === 'en' ? `${path}?lang=en` : path;
+
   const setLanguage = (language, updateUrl = false) => {
     const selected = language === 'en' ? 'en' : 'tr';
+    const copy = { ...shared[selected], ...documentCopy[documentType][selected] };
     document.documentElement.lang = selected;
     document.querySelectorAll('[data-language-content]').forEach((article) => {
       article.hidden = article.dataset.languageContent !== selected;
     });
     document.querySelectorAll('[data-privacy-i18n]').forEach((element) => {
-      const value = copy[selected][element.dataset.privacyI18n];
+      const value = copy[element.dataset.privacyI18n];
       if (value) element.innerHTML = value;
     });
+    document.querySelectorAll('[data-privacy-i18n-aria-label]').forEach((element) => {
+      const value = copy[element.dataset.privacyI18nAriaLabel];
+      if (value) element.setAttribute('aria-label', value);
+    });
     document.querySelectorAll('[data-home-link]').forEach((link) => {
-      const localPreview = ['127.0.0.1', 'localhost', '::1'].includes(window.location.hostname);
-      link.href = selected === 'en' ? (localPreview ? '/en/index.html' : '/en') : '/';
+      link.href = selected === 'en' ? (isLocalPreview() ? '/en/index.html' : '/en') : '/';
     });
     document.querySelectorAll('[data-privacy-self]').forEach((link) => {
-      const localPreview = ['127.0.0.1', 'localhost', '::1'].includes(window.location.hostname);
-      const privacyPath = localPreview ? '/privacy.html' : '/privacy';
-      link.href = selected === 'en' ? `${privacyPath}?lang=en` : privacyPath;
+      link.href = withLanguage(legalPath('privacy'), selected);
     });
+    document.querySelectorAll('[data-cookie-self]').forEach((link) => {
+      link.href = withLanguage(legalPath('cookies'), selected);
+    });
+
+    document.title = copy.pageTitle;
+    ['metaDescription', 'ogDescription', 'twitterDescription'].forEach((id) => {
+      const element = document.getElementById(id);
+      if (element) element.content = copy.description;
+    });
+    ['ogTitle', 'twitterTitle'].forEach((id) => {
+      const element = document.getElementById(id);
+      if (element) element.content = copy.pageTitle;
+    });
+    const ogLocale = document.getElementById('ogLocale');
+    const ogLocaleAlternate = document.getElementById('ogLocaleAlternate');
+    if (ogLocale) ogLocale.content = selected === 'en' ? 'en_US' : 'tr_TR';
+    if (ogLocaleAlternate) ogLocaleAlternate.content = selected === 'en' ? 'tr_TR' : 'en_US';
+
     buttons.forEach((button) => button.setAttribute('aria-pressed', String(button.dataset.language === selected)));
     try { window.localStorage.setItem('liora-language', selected); } catch {}
     if (updateUrl) {

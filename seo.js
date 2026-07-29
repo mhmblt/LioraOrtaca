@@ -26,8 +26,10 @@
       salesTitle: 'Muğla Ortaca Satılık Daire | Liora Ortaca',
       salesDescription: "Muğla Ortaca Cumhuriyet Mahallesi'nde MEF Yapı imzalı Liora Ortaca'da yalnızca 4 daire kaldı. Kat planı, güncel fiyat ve proje sunumu için bilgi alın.",
       salesSocialDescription: "Ortaca Cumhuriyet Mahallesi'nde doğal taş mimarili Liora Ortaca'da son 4 daire. Güncel fiyat ve kat planı için bilgi alın.",
-      privacyTitle: 'Gizlilik ve Çerez Politikası | Liora Ortaca',
-      privacyDescription: "Liora Ortaca web sitesinin gizlilik, çerez, Analytics ve iletişim verisi işleme esasları."
+      privacyTitle: 'KVKK Aydınlatma Metni | Liora Ortaca',
+      privacyDescription: 'Liora Ortaca internet sitesi ziyaretçileri için işlenen veriler, amaçlar, hukuki sebepler, aktarım ve KVKK hakları.',
+      cookieTitle: 'Çerez Politikası ve Teknolojiler | Liora Ortaca',
+      cookieDescription: 'Liora Ortaca sitesindeki dil depolaması, çerezsiz Google Analytics ölçümü, Google Haritalar ve tarayıcı kontrolleri.'
     },
     en: {
       homeTitle: 'Liora Ortaca | Boutique Residences in Muğla, Ortaca',
@@ -37,8 +39,10 @@
       salesTitle: 'Muğla Ortaca Satılık Daire | Liora Ortaca',
       salesDescription: "Muğla Ortaca Cumhuriyet Mahallesi'nde MEF Yapı imzalı Liora Ortaca'da yalnızca 4 daire kaldı. Kat planı, güncel fiyat ve proje sunumu için bilgi alın.",
       salesSocialDescription: "Ortaca Cumhuriyet Mahallesi'nde doğal taş mimarili Liora Ortaca'da son 4 daire. Güncel fiyat ve kat planı için bilgi alın.",
-      privacyTitle: 'Privacy & Cookie Policy | Liora Ortaca',
-      privacyDescription: 'Privacy, cookie, Analytics and contact-data practices for the Liora Ortaca website.'
+      privacyTitle: 'Privacy Notice | Liora Ortaca',
+      privacyDescription: 'Privacy notice for Liora Ortaca website visitors, including data, purposes, legal grounds, transfers and rights.',
+      cookieTitle: 'Cookie Policy and Technologies | Liora Ortaca',
+      cookieDescription: 'Language storage, cookieless Google Analytics, Google Maps and browser controls on the Liora Ortaca website.'
     }
   };
 
@@ -68,9 +72,11 @@
   };
 
   const isPrivacyPage = () => /^\/privacy(?:\.html)?\/?$/.test(window.location.pathname);
+  const isCookiePage = () => /^\/cookies(?:\.html)?\/?$/.test(window.location.pathname);
   const isSalesPage = () => /^\/mugla-ortaca-satilik-daire(?:\.html)?\/?$/.test(window.location.pathname);
   const homePath = (language) => language === 'en' ? '/en' : '/';
   const privacyPath = (language) => language === 'en' ? '/privacy?lang=en' : '/privacy';
+  const cookiePath = (language) => language === 'en' ? '/cookies?lang=en' : '/cookies';
   const absolute = (path) => new URL(path, `${origin}/`).href;
 
   const renderStructuredData = (language, canonicalUrl, imageUrl, description, title, pageType) => {
@@ -93,7 +99,7 @@
         height: 630
       }
     };
-    if (pageType !== 'privacy') webPage.about = { '@id': projectId };
+    if (!['privacy', 'cookies'].includes(pageType)) webPage.about = { '@id': projectId };
 
     const graph = [
       {
@@ -124,7 +130,7 @@
       webPage
     ];
 
-    if (pageType !== 'privacy') {
+    if (!['privacy', 'cookies'].includes(pageType)) {
       graph.push({
         '@type': 'ApartmentComplex',
         '@id': projectId,
@@ -191,16 +197,18 @@
     const language = requestedLanguage === 'en' ? 'en' : 'tr';
     const copy = content[language];
     const privacy = isPrivacyPage();
+    const cookies = isCookiePage();
+    const legal = privacy || cookies;
     const sales = isSalesPage();
-    const pageType = privacy ? 'privacy' : (sales ? 'sales' : 'home');
+    const pageType = privacy ? 'privacy' : (cookies ? 'cookies' : (sales ? 'sales' : 'home'));
     const canonicalPath = privacy
       ? privacyPath(language)
-      : (sales ? '/mugla-ortaca-satilik-daire' : homePath(language));
+      : (cookies ? cookiePath(language) : (sales ? '/mugla-ortaca-satilik-daire' : homePath(language)));
     const canonicalUrl = absolute(canonicalPath);
     const imageUrl = absolute('/assets/liora-social.jpg');
-    const title = privacy ? copy.privacyTitle : (sales ? copy.salesTitle : copy.homeTitle);
-    const description = privacy ? copy.privacyDescription : (sales ? copy.salesDescription : copy.homeDescription);
-    const socialDescription = privacy ? copy.privacyDescription : (sales ? copy.salesSocialDescription : copy.socialDescription);
+    const title = privacy ? copy.privacyTitle : (cookies ? copy.cookieTitle : (sales ? copy.salesTitle : copy.homeTitle));
+    const description = privacy ? copy.privacyDescription : (cookies ? copy.cookieDescription : (sales ? copy.salesDescription : copy.homeDescription));
+    const socialDescription = legal ? description : (sales ? copy.salesSocialDescription : copy.socialDescription);
 
     upsertLink({ rel: 'canonical', href: canonicalUrl });
     if (sales) {
@@ -208,9 +216,12 @@
       upsertLink({ rel: 'alternate', hreflang: 'tr', href: canonicalUrl });
       upsertLink({ rel: 'alternate', hreflang: 'x-default', href: canonicalUrl });
     } else {
-      upsertLink({ rel: 'alternate', hreflang: 'tr', href: absolute(privacy ? privacyPath('tr') : homePath('tr')) });
-      upsertLink({ rel: 'alternate', hreflang: 'en', href: absolute(privacy ? privacyPath('en') : homePath('en')) });
-      upsertLink({ rel: 'alternate', hreflang: 'x-default', href: absolute(privacy ? privacyPath('tr') : homePath('tr')) });
+      const alternatePath = (targetLanguage) => privacy
+        ? privacyPath(targetLanguage)
+        : (cookies ? cookiePath(targetLanguage) : homePath(targetLanguage));
+      upsertLink({ rel: 'alternate', hreflang: 'tr', href: absolute(alternatePath('tr')) });
+      upsertLink({ rel: 'alternate', hreflang: 'en', href: absolute(alternatePath('en')) });
+      upsertLink({ rel: 'alternate', hreflang: 'x-default', href: absolute(alternatePath('tr')) });
     }
 
     document.title = title;
@@ -234,7 +245,7 @@
     }
     ogUrl.setAttribute('content', canonicalUrl);
 
-    if (privacy) {
+    if (legal) {
       setMeta('#robotsMeta', 'noindex,follow,max-image-preview:large');
       setMeta('#googlebotMeta', 'noindex,follow,max-image-preview:large');
     }
