@@ -23,6 +23,9 @@ pages.forEach((file) => {
   (html.match(/<a\b[^>]*target="_blank"[^>]*>/gi) || []).forEach((link) => {
     assert(/\brel="[^"]*noopener/i.test(link), `${file}: target=_blank link is missing noopener`);
   });
+  assert(html.includes('href="/favicon.ico"'), `${file}: root favicon.ico link is missing`);
+  assert(html.includes('href="/assets/favicon-96.png"'), `${file}: 96px PNG favicon link is missing`);
+  assert(html.includes('href="/assets/apple-touch-icon.png"'), `${file}: Apple Touch icon link is missing`);
   [...html.matchAll(/\/assets\/([^"'\s,)]+)/gi)].forEach((match) => {
     assert(fs.existsSync(path.join(root, 'assets', match[1])), `${file}: missing asset /assets/${match[1]}`);
   });
@@ -35,7 +38,7 @@ const privacy = read('privacy.html');
 const cookies = read('cookies.html');
 const notFound = read('404.html');
 const vercel = JSON.parse(read('vercel.json'));
-JSON.parse(read('manifest.webmanifest'));
+const manifest = JSON.parse(read('manifest.webmanifest'));
 
 [
   ['Turkish home', home],
@@ -100,5 +103,10 @@ assert(read('api/sitemap.js').includes('salesTr'), 'Sales landing sitemap URL is
 assert(read('api/sitemap.js').includes('xmlns:image'), 'Image sitemap namespace is missing');
 assert(read('site-config.js').includes("siteUrl: 'https://www.lioraortaca.com'"), 'Canonical production domain is not configured');
 assert(fs.existsSync(path.join(root, '0df6914d2e91b1442f60a77c4c937d72.txt')), 'IndexNow key file is missing');
+['favicon.ico', 'assets/favicon-48.png', 'assets/favicon-96.png', 'assets/apple-touch-icon.png', 'assets/icon-192.png', 'assets/icon-512.png', 'assets/icon-maskable-512.png']
+  .forEach((file) => assert(fs.existsSync(path.join(root, file)), `Favicon asset is missing: ${file}`));
+assert(manifest.icons.some((icon) => icon.src === '/assets/icon-192.png' && icon.sizes === '192x192'), '192px manifest icon is missing');
+assert(manifest.icons.some((icon) => icon.src === '/assets/icon-512.png' && icon.sizes === '512x512'), '512px manifest icon is missing');
+assert(manifest.icons.some((icon) => icon.src === '/assets/icon-maskable-512.png' && icon.purpose === 'maskable'), 'Maskable manifest icon is missing');
 
 console.log(`Verified ${pages.length} pages, metadata, links, images, CSP, robots and sitemap.`);

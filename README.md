@@ -73,6 +73,12 @@ Ana paylaşım görseli değiştiğinde 1200×630 sosyal kartını yeniden üret
 powershell.exe -NoProfile -ExecutionPolicy Bypass -File ".\scripts\generate-social-image.ps1"
 ```
 
+Favicon monogramı değiştiğinde kök `.ico`, Google uyumlu kare PNG, Apple Touch ve maskable uygulama ikonlarını birlikte yeniden üretin:
+
+```powershell
+python scripts/generate-favicon-assets.py
+```
+
 ## Arama motoru yayına alma kontrolü
 
 Yeni domain şu anda görünür bir Google sonucu üretmiyor. Deploy tamamlandıktan sonra:
