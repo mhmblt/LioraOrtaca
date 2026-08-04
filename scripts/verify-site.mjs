@@ -23,8 +23,9 @@ pages.forEach((file) => {
   (html.match(/<a\b[^>]*target="_blank"[^>]*>/gi) || []).forEach((link) => {
     assert(/\brel="[^"]*noopener/i.test(link), `${file}: target=_blank link is missing noopener`);
   });
-  assert(html.includes('href="/favicon.ico"'), `${file}: root favicon.ico link is missing`);
-  assert(html.includes('href="/assets/favicon-96.png"'), `${file}: 96px PNG favicon link is missing`);
+  assert(html.includes('<link rel="icon" href="/favicon.ico" />'), `${file}: canonical root favicon link is missing`);
+  assert((html.match(/<link\s+rel="icon"/gi) || []).length === 1, `${file}: multiple favicon candidates are present`);
+  assert(!html.includes('href="/favicon.ico" sizes="any"'), `${file}: ICO favicon must not claim scalable sizing`);
   assert(html.includes('href="/assets/apple-touch-icon.png"'), `${file}: Apple Touch icon link is missing`);
   const head = html.match(/<head>[\s\S]*?<\/head>/i)?.[0] || '';
   assert(head.includes('/site-config.js?v=20260804a1'), `${file}: production config must load in the head`);
