@@ -20,7 +20,7 @@ Canonical üretim alan adı `https://www.lioraortaca.com` olarak sabitlenmiştir
 2. GA4 yönetiminde `generate_lead` olayını **Key event** olarak işaretleyin. İhtiyaca göre `contact` olayı da key event yapılabilir.
 3. GA4 veri saklama, Google Signals ve Google Ads bağlantı ayarlarını kurumun onay politikasıyla birlikte kontrol edin.
 
-Analytics, onay penceresi göstermeyen çerezsiz Consent Mode yapılandırmasıyla otomatik çalışır. `analytics_storage`, reklam depolaması, reklam kullanıcı verisi ve reklam kişiselleştirme sinyalleri kalıcı olarak reddedilir; Google Signals ve reklam kişiselleştirmesi açılmaz. Gömülü Google Haritalar konum bölümünde otomatik yüklenir. Bu düşük sürtünmeli yapı, Google’a teknik ölçüm/harita isteklerini tamamen kaldırmadığı için KVKK m.9 aktarım mekanizması ve meşru menfaat dengeleme değerlendirmesi şirketin gerçek veri envanteriyle tamamlanmalıdır.
+Analytics, üretim alan adında onay penceresi göstermeden otomatik çalışır. Standart GA4 raporlarının oluşması için `analytics_storage` etkin; reklam depolaması, reklam kullanıcı verisi ve reklam kişiselleştirme sinyalleri kapalıdır. Google Signals ve reklam kişiselleştirmesi açılmaz. Birinci taraf Analytics çerezlerinin süresi kod seviyesinde en çok altı ayla sınırlandırılmış ve ziyaretlerde yenilenmeyecek şekilde ayarlanmıştır. Gömülü Google Haritalar konum bölümünde otomatik yüklenir. KVKK m.9 aktarım mekanizması, analitik çerezlerin hukuki sebebi ve gerekiyorsa tercih/rıza mekanizması şirketin gerçek veri envanteriyle hukuk danışmanı tarafından tamamlanmalıdır.
 
 Ölçülen başlıca olaylar:
 

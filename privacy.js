@@ -19,14 +19,14 @@
       tr: {
         title: 'KVKK<br /><em>Aydınlatma Metni</em>',
         summary: 'Kişisel verilerin hangi kapsamda ve neden işlendiğini açık, ölçülü ve doğrulanabilir biçimde açıklıyoruz.',
-        updated: 'Son güncelleme: 29 Temmuz 2026',
+        updated: 'Son güncelleme: 4 Ağustos 2026',
         pageTitle: 'KVKK Aydınlatma Metni | Liora Ortaca',
         description: 'Liora Ortaca internet sitesi ziyaretçileri için KVKK aydınlatma metni; işlenen veriler, amaçlar, hukuki sebepler, aktarım ve başvuru hakları.'
       },
       en: {
         title: 'Privacy<br /><em>Notice</em>',
         summary: 'A clear, proportionate account of what personal data is processed, why it is used and the controls available to you.',
-        updated: 'Last updated: 29 July 2026',
+        updated: 'Last updated: 4 August 2026',
         pageTitle: 'Privacy Notice | Liora Ortaca',
         description: 'Privacy notice for visitors to the Liora Ortaca website, including data, purposes, legal grounds, transfers and rights.'
       }
@@ -34,17 +34,17 @@
     cookies: {
       tr: {
         title: 'Çerez Politikası<br /><em>ve Teknolojiler</em>',
-        summary: 'Sitede kullanılan tarayıcı depolamasını, çerezsiz ölçümü ve harita hizmetini açık biçimde açıklıyoruz.',
-        updated: 'Son güncelleme: 29 Temmuz 2026',
+        summary: 'Sitede kullanılan tarayıcı depolamasını, Analytics ölçümünü ve harita hizmetini açık biçimde açıklıyoruz.',
+        updated: 'Son güncelleme: 4 Ağustos 2026',
         pageTitle: 'Çerez Politikası ve Teknolojiler | Liora Ortaca',
-        description: 'Liora Ortaca çerez politikası; dil tercihi, çerezsiz Google Analytics ölçümü, Google Haritalar ve tarayıcı kontrolleri.'
+        description: 'Liora Ortaca çerez politikası; dil tercihi, sınırlı Google Analytics ölçümü, Google Haritalar ve tarayıcı kontrolleri.'
       },
       en: {
         title: 'Cookie Policy<br /><em>&amp; Technologies</em>',
-        summary: 'A clear account of browser storage, cookieless measurement and map services used on this website.',
-        updated: 'Last updated: 29 July 2026',
+        summary: 'A clear account of browser storage, Analytics measurement and map services used on this website.',
+        updated: 'Last updated: 4 August 2026',
         pageTitle: 'Cookie Policy and Technologies | Liora Ortaca',
-        description: 'Liora Ortaca cookie policy covering language storage, cookieless Google Analytics, Google Maps and browser controls.'
+        description: 'Liora Ortaca cookie policy covering language storage, limited Google Analytics measurement, Google Maps and browser controls.'
       }
     }
   };

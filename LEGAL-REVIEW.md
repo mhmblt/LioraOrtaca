@@ -25,14 +25,14 @@ Bu dosya yayınlanacak hukuki metin değildir; şirket ve KVKK alanında çalı�
 - [ ] Her aktarım için KVKK m.9 kapsamındaki uygun aktarım mekanizması belirlendi.
 - [ ] Standart sözleşme kullanılacaksa taraflar ve imza yetkileri kontrol edildi; sözleşmenin Kuruma beş iş günü içinde bildirim süreci sorumlu kişiye atandı.
 - [ ] Veri işleyen sözleşmeleri, erişim sınırları, ihlal bildirimi ve silme/iade hükümleri gözden geçirildi.
-- [ ] GA4’ün çerezsiz ölçüm sinyalleri ile otomatik yüklenmesi için meşru menfaat dengeleme testi ve KVKK m.9 aktarım mekanizması hukuk danışmanıyla belgelendi.
-- [ ] Google Signals ve reklam kişiselleştirmesi ayrıca değerlendirilmeden açılmadı; `analytics_storage`, `ad_storage`, `ad_user_data` ve `ad_personalization` değerlerinin kalıcı olarak `denied` kaldığı doğrulandı.
+- [ ] GA4’ün birinci taraf analitik çerezleriyle otomatik yüklenmesi için uygulanacak hukuki sebep, gerekiyorsa tercih/rıza mekanizması ve KVKK m.9 aktarım mekanizması hukuk danışmanıyla belgelendi.
+- [ ] Google Signals ve reklam kişiselleştirmesi ayrıca değerlendirilmeden açılmadı; yalnızca `analytics_storage` etkin, `ad_storage`, `ad_user_data` ve `ad_personalization` değerleri `denied` durumunda tutuldu.
 - [ ] GA4 kullanıcı/olay verisi saklama süresi 14 ayı aşmayacak şekilde panelden doğrulandı.
 
-## Çerezsiz ölçüm ve harici medya
+## Analitik ölçüm ve harici medya
 
-- [ ] Gizli/temiz tarayıcı profilinde GA4 etiketi çalışırken birinci taraf `_ga` veya `_ga_*` çerezi oluşmadığı doğrulandı.
-- [ ] Google Analytics’e giden çerezsiz ölçüm istekleri ile Google Haritalar’ın otomatik ağ istekleri veri envanterine işlendi.
+- [ ] Gizli/temiz tarayıcı profilinde GA4 etiketi çalışırken birinci taraf `_ga` ve `_ga_*` çerezlerinin oluştuğu ve sürelerinin altı ayı aşmadığı doğrulandı.
+- [ ] Google Analytics’e giden ölçüm istekleri, birinci taraf analitik tanımlayıcıları ve Google Haritalar’ın otomatik ağ istekleri veri envanterine işlendi.
 - [ ] Google Haritalar’ın mobil/masaüstünde otomatik açıldığı ve iframe kaynağının doğru proje/ofis konumunu gösterdiği doğrulandı.
 - [ ] Çerez/yerel depolama tablosu kullanılan gerçek teknolojiyle karşılaştırıldı; yalnızca `liora-language` yerel tercih kaydı ve sağlayıcı kaynaklı işlemler açıklanıyor.
 - [ ] Yeni pazarlama etiketi, pixel, canlı destek veya form eklenmeden önce envanter ve metin güncelleme süreci tanımlandı.

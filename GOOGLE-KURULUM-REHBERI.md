@@ -95,7 +95,7 @@ Resmî kaynak: [GA4 ölçüm kimliğini bulma ve etiketi kurma](https://support.
    - İç trafik için ofis IP’lerini tanımlayın.
    - İstenmeyen yönlendirmeler listesine yalnızca gerçekten ödeme/kimlik doğrulama aracı gibi oturumu bozan alan adlarını ekleyin.
    - Form etkileşimi yoksa form ölçümünü gereksiz yere açmayın.
-5. Site, onay penceresi göstermeyen çerezsiz Consent Mode yapılandırmasını uygular: Google etiketi otomatik yüklenir; `analytics_storage`, `ad_storage`, `ad_user_data` ve `ad_personalization` kalıcı olarak `denied` durumundadır. `allow_google_signals` ve reklam kişiselleştirme sinyalleri de kapalıdır. Bu yapı tarayıcıya Analytics çerezi yazmadan ölçüm sinyali gönderebilir; Google’a teknik isteği tamamen ortadan kaldırmaz.
+5. Site, Google etiketini üretim alan adında otomatik yükler. Standart Gerçek Zamanlı ve GA4 raporlarının oluşması için `analytics_storage` etkin; `ad_storage`, `ad_user_data` ve `ad_personalization` kapalıdır. `allow_google_signals` ve reklam kişiselleştirme sinyalleri de kapalı tutulur. Birinci taraf Analytics çerezleri kod seviyesinde en çok altı ayla sınırlandırılmış ve sonraki ziyaretlerde yenilenmeyecek şekilde ayarlanmıştır. Bu tercih, şirketin güncel veri envanteri ve hukuk danışmanının analitik çerez değerlendirmesiyle birlikte yönetilmelidir.
 
 Resmî kaynaklar: [kullanıcı onayı yönetimi](https://support.google.com/analytics/answer/12329599?hl=en), [Consent Mode kurulumu](https://developers.google.com/tag-platform/security/guides/consent), [GA4 yapılandırma ve 14 aylık sınır](https://support.google.com/analytics/answer/12229528?hl=en).
 
@@ -130,10 +130,10 @@ Facebook için yalnızca `utm_source=facebook` değerini değiştirin. Türkçe 
 ### 2.4 Teknik doğrulama
 
 1. Gizli sekmede siteyi açın; herhangi bir onay penceresi görünmemelidir.
-2. Tag Assistant/Network panelinde `gtag/js?id=G-6PJERQFXEK` dosyasının ve çerezsiz GA4 ölçüm isteklerinin geldiğini doğrulayın.
-3. Sayfa kaynağında Consent Mode varsayımlarının etiket yapılandırmasından önce uygulandığını; `analytics_storage`, `ad_storage`, `ad_user_data` ve `ad_personalization` değerlerinin `denied` kaldığını kontrol edin.
-4. Tarayıcı geliştirici araçlarında siteye ait `_ga` veya `_ga_*` çerezi oluşmadığını doğrulayın. Tarayıcı uzantıları ya da daha önceki kurulumlardan kalan veriler varsa temiz bir profil kullanın.
-5. WhatsApp tıklamasından sonra GA4 Gerçek Zamanlı/DebugView raporunda `generate_lead` olayını kontrol edin. Çerezsiz modelleme ve rapor işleme nedeniyle görünürlük gecikebilir.
+2. Tag Assistant/Network panelinde `gtag/js?id=G-6PJERQFXEK` dosyasının ve GA4 ölçüm isteklerinin geldiğini doğrulayın.
+3. Sayfa kaynağında etiketin `<head>` içinde başlatıldığını; `analytics_storage` değerinin `granted`, `ad_storage`, `ad_user_data` ve `ad_personalization` değerlerinin `denied` olduğunu kontrol edin.
+4. Temiz bir tarayıcı profilinde siteye ait `_ga` ve `_ga_*` çerezlerinin oluştuğunu, sürelerinin altı ayı aşmadığını doğrulayın.
+5. `https://www.lioraortaca.com/?ga_debug=1` adresini açtıktan sonra WhatsApp bağlantısına tıklayın; GA4 DebugView içinde `page_view` ve `generate_lead` olaylarını kontrol edin. Gerçek Zamanlı rapor genellikle dakikalar içinde, standart raporlar daha geç güncellenir.
 6. Test trafiğini GA4’te geliştirici/iç trafik filtresiyle üretim raporlarından ayırın.
 
 ## 3. Search Console ile GA4’ü bağlama
@@ -216,7 +216,7 @@ Resmî kaynak: [Maps Embed API kurulumu](https://developers.google.com/maps/docu
 Her ay aynı tabloda takip edin:
 
 - Search Console: marka ve yerel sorgu gösterimi, organik tıklama, doğru landing page, indeks/CWV hataları
-- GA4: çerezsiz ölçüm kapsamı, `generate_lead`, `contact`, kaynak/medium, landing page
+- GA4: kullanıcı/oturum, `generate_lead`, `contact`, kaynak/medium, landing page
 - Reklam: harcama, WhatsApp lead sayısı, nitelikli görüşme ve gerçek satış
 - Business Profile: aramalar, web sitesi tıklaması, arama/rota aksiyonu, yorum yanıt süresi
 

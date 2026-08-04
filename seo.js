@@ -29,7 +29,7 @@
       privacyTitle: 'KVKK Aydınlatma Metni | Liora Ortaca',
       privacyDescription: 'Liora Ortaca internet sitesi ziyaretçileri için işlenen veriler, amaçlar, hukuki sebepler, aktarım ve KVKK hakları.',
       cookieTitle: 'Çerez Politikası ve Teknolojiler | Liora Ortaca',
-      cookieDescription: 'Liora Ortaca sitesindeki dil depolaması, çerezsiz Google Analytics ölçümü, Google Haritalar ve tarayıcı kontrolleri.'
+      cookieDescription: 'Liora Ortaca sitesindeki dil depolaması, sınırlı Google Analytics ölçümü, Google Haritalar ve tarayıcı kontrolleri.'
     },
     en: {
       homeTitle: 'Liora Ortaca | Boutique Residences in Muğla, Ortaca',
@@ -42,7 +42,7 @@
       privacyTitle: 'Privacy Notice | Liora Ortaca',
       privacyDescription: 'Privacy notice for Liora Ortaca website visitors, including data, purposes, legal grounds, transfers and rights.',
       cookieTitle: 'Cookie Policy and Technologies | Liora Ortaca',
-      cookieDescription: 'Language storage, cookieless Google Analytics, Google Maps and browser controls on the Liora Ortaca website.'
+      cookieDescription: 'Language storage, limited Google Analytics measurement, Google Maps and browser controls on the Liora Ortaca website.'
     }
   };
 

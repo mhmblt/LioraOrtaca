@@ -26,6 +26,12 @@ pages.forEach((file) => {
   assert(html.includes('href="/favicon.ico"'), `${file}: root favicon.ico link is missing`);
   assert(html.includes('href="/assets/favicon-96.png"'), `${file}: 96px PNG favicon link is missing`);
   assert(html.includes('href="/assets/apple-touch-icon.png"'), `${file}: Apple Touch icon link is missing`);
+  const head = html.match(/<head>[\s\S]*?<\/head>/i)?.[0] || '';
+  assert(head.includes('/site-config.js?v=20260804a1'), `${file}: production config must load in the head`);
+  assert(head.includes('/analytics.js?v=20260804a1'), `${file}: GA4 bootstrap must load in the head`);
+  assert(/<script[^>]+\/analytics\.js\?v=20260804a1[^>]+defer/i.test(head), `${file}: GA4 bootstrap must not block rendering`);
+  assert(head.indexOf('/site-config.js') < head.indexOf('/analytics.js'), `${file}: GA4 config must load before analytics bootstrap`);
+  assert((html.match(/\/analytics\.js\?v=/g) || []).length === 1, `${file}: Analytics must load exactly once`);
   [...html.matchAll(/\/assets\/([^"'\s,)]+)/gi)].forEach((match) => {
     assert(fs.existsSync(path.join(root, 'assets', match[1])), `${file}: missing asset /assets/${match[1]}`);
   });
@@ -80,14 +86,17 @@ assert(privacy.includes('KVKK m.11') && privacy.includes('KVKK m.9'), 'Privacy n
 assert(cookies.includes('data-language-content="tr"') && cookies.includes('data-language-content="en"'), 'Cookie policy translations are incomplete');
 assert(cookies.includes('content="noindex,follow'), 'Cookie policy must remain noindex');
 assert(!cookies.includes('liora-consent-v2') && !cookies.includes('liora-campaign-v1'), 'Obsolete consent or campaign storage remains in the cookie inventory');
-assert(cookies.includes('Çerezsiz ölçüm sinyalleri') && cookies.includes('Cookieless measurement signals'), 'Cookieless analytics disclosure is incomplete');
+assert(cookies.includes('<code>_ga</code>') && cookies.includes('<code>_ga_*</code>'), 'Analytics cookie inventory is incomplete');
+assert(cookies.includes('En çok 6 ay') && cookies.includes('Up to 6 months'), 'Analytics cookie retention disclosure is incomplete');
 assert(cookies.includes('G-6PJERQFXEK'), 'Configured GA4 ID is missing from the cookie disclosure');
 assert(!privacy.includes('id="consentBanner"') && !cookies.includes('id="consentBanner"'), 'Legal pages must not display a consent prompt');
 const analytics = read('analytics.js');
 assert(!analytics.includes('localStorage') && !analytics.includes('sessionStorage'), 'Analytics must not persist consent or campaign identifiers');
-assert(analytics.includes("analytics_storage: 'denied'"), 'Analytics storage must remain denied');
+assert(analytics.includes("analytics_storage: 'granted'"), 'Analytics storage must be enabled for standard GA4 reporting');
 assert(analytics.includes("ad_storage: 'denied'") && analytics.includes("ad_user_data: 'denied'") && analytics.includes("ad_personalization: 'denied'"), 'Advertising consent signals must remain denied');
 assert(analytics.includes("allow_google_signals: false") && analytics.includes("allow_ad_personalization_signals: false"), 'Google Signals or ad personalization is not disabled');
+assert(analytics.includes('cookie_expires: 15552000') && analytics.includes('cookie_update: false'), 'Analytics cookie lifetime controls are incomplete');
+assert(analytics.includes("new Set(['lioraortaca.com', 'www.lioraortaca.com'])"), 'GA4 must be restricted to production hosts');
 assert(read('site-config.js').includes("ga4MeasurementId: 'G-6PJERQFXEK'"), 'Production GA4 measurement ID is not configured');
 assert(notFound.includes('content="noindex,follow"'), '404 page must remain noindex');
 assert(vercel.cleanUrls === true && vercel.trailingSlash === false, 'Vercel canonical URL settings are incomplete');

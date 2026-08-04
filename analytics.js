@@ -2,6 +2,9 @@
   const config = window.LIORA_CONFIG || {};
   const measurementId = String(config.ga4MeasurementId || '').trim().toUpperCase();
   const analyticsConfigured = /^G-[A-Z0-9]+$/.test(measurementId);
+  const productionHosts = new Set(['lioraortaca.com', 'www.lioraortaca.com']);
+  const isProduction = productionHosts.has(window.location.hostname);
+  const debugMode = new URLSearchParams(window.location.search).get('ga_debug') === '1';
 
   const getPageType = () => {
     const path = window.location.pathname.replace(/\.html$/, '').replace(/\/$/, '') || '/';
@@ -34,35 +37,41 @@
   window.gtag = window.gtag || function gtag() { window.dataLayer.push(arguments); };
 
   /*
-   * Cookieless measurement: Google tags may send consent-state and measurement
-   * pings, but analytics/ad storage and personalisation remain disabled.
+   * GA4 audience measurement is enabled on the production domain. Advertising
+   * storage, Signals and personalisation remain disabled independently.
    */
   window.gtag('consent', 'default', {
-    analytics_storage: 'denied',
+    analytics_storage: 'granted',
     ad_storage: 'denied',
     ad_user_data: 'denied',
-    ad_personalization: 'denied'
+    ad_personalization: 'denied',
+    personalization_storage: 'denied',
+    functionality_storage: 'granted',
+    security_storage: 'granted'
   });
   window.gtag('set', 'ads_data_redaction', true);
   window.gtag('set', 'url_passthrough', false);
 
-  if (!analyticsConfigured) {
-    window.LioraAnalytics = Object.freeze({ track: () => {} });
+  if (!analyticsConfigured || !isProduction) {
+    window.LioraAnalytics = Object.freeze({ enabled: false, track: () => {} });
     return;
   }
 
   const googleTag = document.createElement('script');
+  googleTag.id = 'liora-google-tag';
   googleTag.async = true;
   googleTag.src = `https://www.googletagmanager.com/gtag/js?id=${encodeURIComponent(measurementId)}`;
   document.head.appendChild(googleTag);
   window.gtag('js', new Date());
   window.gtag('config', measurementId, {
     send_page_view: true,
+    debug_mode: debugMode,
     allow_google_signals: false,
     allow_ad_personalization_signals: false,
+    cookie_expires: 15552000,
+    cookie_flags: 'SameSite=Lax;Secure',
     cookie_update: false,
-    content_group: getPageType(),
-    transport_type: 'beacon'
+    content_group: getPageType()
   });
 
   const track = (eventName, parameters = {}) => {
@@ -120,28 +129,33 @@
     }
   });
 
-  document.querySelectorAll('.faq details').forEach((details, index) => {
-    details.addEventListener('toggle', () => {
-      if (details.open) track('select_content', { content_type: 'faq', item_id: `faq_${index + 1}` });
+  const bindContentEvents = () => {
+    document.querySelectorAll('.faq details').forEach((details, index) => {
+      details.addEventListener('toggle', () => {
+        if (details.open) track('select_content', { content_type: 'faq', item_id: `faq_${index + 1}` });
+      });
     });
-  });
+
+    const availability = document.querySelector('.availability');
+    if (availability && 'IntersectionObserver' in window) {
+      const observer = new IntersectionObserver(([entry], currentObserver) => {
+        if (!entry.isIntersecting) return;
+        track('view_promotion', {
+          promotion_id: 'last_4_residences',
+          promotion_name: 'Liora Ortaca — Son 4 Daire'
+        });
+        currentObserver.disconnect();
+      }, { threshold: 0.5 });
+      observer.observe(availability);
+    }
+  };
+
+  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', bindContentEvents, { once: true });
+  else bindContentEvents();
 
   window.addEventListener('liora:language-change', (event) => {
     track('language_change', { language: event.detail?.language || document.documentElement.lang });
   });
 
-  const availability = document.querySelector('.availability');
-  if (availability && 'IntersectionObserver' in window) {
-    const observer = new IntersectionObserver(([entry], currentObserver) => {
-      if (!entry.isIntersecting) return;
-      track('view_promotion', {
-        promotion_id: 'last_4_residences',
-        promotion_name: 'Liora Ortaca — Son 4 Daire'
-      });
-      currentObserver.disconnect();
-    }, { threshold: 0.5 });
-    observer.observe(availability);
-  }
-
-  window.LioraAnalytics = Object.freeze({ track });
+  window.LioraAnalytics = Object.freeze({ enabled: true, track });
 })();
